@@ -3,7 +3,8 @@
 
 module "private_sg" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "4.17.1"
+  version = "3.18.0"
+  
 
   name        = "private-sg"
   description = "Security group with HTTP & SSH ports open for everybody (IPv4 CIDR), egress ports are all world open"

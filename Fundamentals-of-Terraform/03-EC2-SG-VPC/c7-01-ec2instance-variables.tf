@@ -2,7 +2,7 @@
 # EC2 Instance Variables
 
 # AWS EC2 Instance Type
-variable "intstance_type" {
+variable "instance_type" {
     description = "EC2 instance type"
     type = string
     default = "t3.micro"
