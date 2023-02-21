@@ -24,7 +24,7 @@ output "ec2_private_instance_ids" {
 
 
 ## ec2_private_ip
-output "ec2_bastion_private_instance_ip" {
+output "ec2_private_instance_ip" {
     description = "List of private IP addresses assigned to the instances"
     value       = module.ec2_private.private_ip
 }
