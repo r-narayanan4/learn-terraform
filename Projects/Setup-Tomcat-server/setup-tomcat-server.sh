@@ -2,7 +2,9 @@
 sudo yum update -y 
 sudo yum install wget -y 
   
-sudo yum install fontconfig java-11-openjdk -y  
+sudo amazon-linux-extras install java-openjdk11 -y
+#sudo yum install fontconfig java-11-openjdk -y 
+
     
 #Cmd to install tomcat on your host. 
 #Variables
@@ -16,21 +18,23 @@ sudo tar -xvzf apache-tomcat-${req_tom_ver}.tar.gz
 sudo mv apache-tomcat-${req_tom_ver} tomcat${tom_m_ver} 
 sudo rm -rf apache-tomcat-${req_tom_ver}.tar.gz
 
-
+#create link files for tomcat startup.sh and shutdown.sh
+sudo ln -s ./tomcat${tom_m_ver}/bin/startup.sh /usr/local/bin/tomcatup
+sudo ln -s ./tomcat${tom_m_ver}/bin/shutdown.sh /usr/local/bin/tomcatdown
 
 
 #-----------------------------------------TomCat-Files-Configuration----------------------------------------------------
 
 #To change the port number  8080 to 8089 (access tomcat application from browser on prot 8090)
-sudo sed -i '69s/8080/8089/' ./tomcat${tom_m_ver}/conf/server.xml
+sudo sed -i '69s/8080/8089/'  ./tomcat${tom_m_ver}/conf/server.xml
 
 #To modify this restriction you'll need to edit the Manager's context.xml file. (under webapps dir)
 #We need to  find context.xml and  comment () Valve ClassName under host-manager and manager.
 
 sudo sed -i '21s/^/<!-- /' ./tomcat${tom_m_ver}/webapps/host-manager/META-INF/context.xml
-sudo sed -i '22s/$/ -->/' ./tomcat${tom_m_ver}/webapps/host-manager/META-INF/context.xml
-sudo sed -i '21s/^/<!-- /' ./tomcat${tom_m_ver}/webapps/manager/META-INF/context.xml
-sudo sed -i '22s/$/ -->/' ./tomcat${tom_m_ver}/webapps/manager/META-INF/context.xml
+sudo sed -i '22s/$/ -->/'  ./tomcat${tom_m_ver}/webapps/host-manager/META-INF/context.xml
+sudo sed -i '21s/^/<!-- /'  ./tomcat${tom_m_ver}/webapps/manager/META-INF/context.xml
+sudo sed -i '22s/$/ -->/'  ./tomcat${tom_m_ver}/webapps/manager/META-INF/context.xml
 
 #We need to update the user information in users.xml in /conf
 line_number=48  # Replace with the line number where you want to add the content
@@ -49,4 +53,5 @@ sudo sed -i "${line_number}a\\
 sudo chmod u+x ./tomcat${tom_m_ver}/bin/startup.sh
 sudo chmod u+x ./tomcat${tom_m_ver}/bin/shutdown.sh
 
+ 
 ./tomcat${tom_m_ver}/bin/startup.sh
