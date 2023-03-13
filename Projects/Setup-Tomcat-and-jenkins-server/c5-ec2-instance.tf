@@ -11,3 +11,17 @@ resource "aws_instance" "Tomcat-Server" {
         "Name" = "Tomcat-Server"
     } 
 }
+
+# Jenkins-Server
+# EC2 Instance
+
+resource "aws_instance" "Jenkins-Server" {
+    ami = data.aws_ami.amzlinux2.id
+    instance_type = var.instance_type
+    user_data = file("${path.module}/jenkins-server.sh")
+    key_name = var.instance_keypair
+    vpc_security_group_ids = [aws_security_group.Jenkins-server-sg.id]
+    tags = {
+        "Name" = "Jenkins-Server"
+    } 
+}
